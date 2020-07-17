@@ -13,7 +13,9 @@ const Calendar = ({ history }) => {
 
   const [prevMonthDays, setPrevMonthDays] = useState()
 
-  const months = moment.months()
+  const [months] = useState(moment.months())
+
+  // const months = moment.months()
   const years = [
     2010,
     2011,
@@ -39,7 +41,7 @@ const Calendar = ({ history }) => {
       setSelectedMonth(months[parseInt(monthParam)])
       setActiveDate((date) => moment(date).set('month', monthParam))
     }
-  }, [history])
+  }, [history, months])
 
   useEffect(() => {
     const monthNumber = parseInt(moment().month(selectedMonth).format('MM'))
@@ -55,7 +57,7 @@ const Calendar = ({ history }) => {
       prevMonth = monthNumber - 2
     }
     setPrevMonthDays(moment([selectedYear, prevMonth]).daysInMonth())
-  }, [activeDate])
+  }, [activeDate, selectedMonth, selectedYear])
 
   useEffect(() => {
     const monthNumber = moment().month(selectedMonth).format('MM')
@@ -130,7 +132,7 @@ const Calendar = ({ history }) => {
     daysInMonth.push(
       <td
         key={`date-${i}`}
-        className={activeDate.format('D') == i ? 'current' : ''}
+        className={parseInt(activeDate.format('D')) === i ? 'current' : ''}
       >
         {i}
       </td>
